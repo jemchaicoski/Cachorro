@@ -17,9 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String cachorro = racas.get(position);
                 Log.e("cachorro", cachorro);
-                Intent intent = new Intent(getApplicationContext(), /*Activity Que Vai Ser Chamada*/ Cachorro.class);
-                intent.putExtra("Cachorro", cachorro);
+                Intent intent = new Intent(getApplicationContext(), /*Activity Que Vai Ser Chamada*/ Racas.class);
+                intent.putExtra("Racas", cachorro);
                 startActivity(intent);
 
             }

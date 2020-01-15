@@ -24,12 +24,14 @@ import java.util.ArrayList;
 
 import static com.jj.cachorro.MainActivity.capitalize;
 
-public class Cachorro extends AppCompatActivity {
+public class Racas extends AppCompatActivity {
     ImageView fotoCachorro;
+    RequestQueue queue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cachorro);
+        setContentView(R.layout.activity_racas);
 
 
 
@@ -40,20 +42,20 @@ public class Cachorro extends AppCompatActivity {
         listView.setAdapter(arrayAdapter);
 
         Intent intent = getIntent();
-        final String nomeCachorro = intent.getStringExtra("Cachorro");
+        final String nomeCachorro = intent.getStringExtra("Racas");
 
         String inicio = "https://dog.ceo/api/breed/";
         String inicioImagem = "https://dog.ceo/api/breed/";
 
         String imagem = inicioImagem + nomeCachorro.toLowerCase() +"/images/random";
         String url = inicio + nomeCachorro.toLowerCase() + "/list";
-        urlFoto(imagem);
+
 
 
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-
+        queue = Volley.newRequestQueue(this);
+        urlFoto(imagem);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -103,7 +105,6 @@ public class Cachorro extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
                     }
 
 
@@ -115,7 +116,7 @@ public class Cachorro extends AppCompatActivity {
 
                     }
                 });
-
+        queue.add(jsonObjectRequest);
     }
 }
 
