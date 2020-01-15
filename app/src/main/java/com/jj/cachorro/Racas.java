@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -33,8 +36,6 @@ public class Racas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_racas);
 
-
-
         fotoCachorro = findViewById(R.id.fotoCachorro);
         final ListView listView = (ListView) findViewById(R.id.listView);
         final ArrayList<String> arrayList = new ArrayList<String>();
@@ -46,12 +47,19 @@ public class Racas extends AppCompatActivity {
 
         String inicio = "https://dog.ceo/api/breed/";
         String inicioImagem = "https://dog.ceo/api/breed/";
-
         String imagem = inicioImagem + nomeCachorro.toLowerCase() +"/images/random";
+
         String url = inicio + nomeCachorro.toLowerCase() + "/list";
 
-
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String subRaca = ("/" + arrayList.get(position)).toLowerCase();
+                String inicioImagem = "https://dog.ceo/api/breed/";
+                String imagemSub = inicioImagem + nomeCachorro.toLowerCase()+ subRaca +"/images/random";
+                urlFoto(imagemSub);
+            }
+        });
 
         // Instantiate the RequestQueue.
         queue = Volley.newRequestQueue(this);
