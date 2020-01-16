@@ -3,6 +3,7 @@ package com.jj.cachorro;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,15 +29,21 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ImageView fotoCachorroInicio;
+    private ListView lista;
+    private ArrayList<String> racas;
+    private ArrayAdapter<String> arrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        racas = new ArrayList<String>();
+        fotoCachorroInicio = (ImageView) findViewById(R.id.fotoCachorroInicio);
+        lista = (ListView) findViewById(R.id.listView);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, racas);
 
-        final ImageView fotoCachorro = (ImageView) findViewById(R.id.fotoCachorro);
-        final ListView lista = (ListView) findViewById(R.id.listView);
-        final ArrayList<String> racas = new ArrayList<String>();
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, racas);
+
         lista.setAdapter(arrayAdapter);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,6 +96,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Access the RequestQueue through your singleton class.
         queue.add(jsonObjectRequest);
+    }
+
+    @Override
+    protected void onResume() {
+        SharedPreferences preferences = getSharedPreferences("user_preferences", MODE_PRIVATE);
+        String urlImagem = preferences.getString("Url", "");
+
+        if (!urlImagem.isEmpty()){
+            Picasso.get().load(urlImagem).into(fotoCachorroInicio);
+        }
+
+        super.onResume();
     }
 
     public static String capitalize(String str) {

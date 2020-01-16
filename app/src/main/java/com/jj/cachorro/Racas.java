@@ -3,6 +3,7 @@ package com.jj.cachorro;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,7 @@ public class Racas extends AppCompatActivity {
         String inicio = "https://dog.ceo/api/breed/";
         String inicioImagem = "https://dog.ceo/api/breed/";
         String imagem = inicioImagem + nomeCachorro.toLowerCase() +"/images/random";
+
 
         String url = inicio + nomeCachorro.toLowerCase() + "/list";
 
@@ -108,6 +110,8 @@ public class Racas extends AppCompatActivity {
                         try {
                             String urlImagem = response.getString("message");
                             Picasso.get().load(urlImagem).into(fotoCachorro);
+                            imageShared(urlImagem);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -125,6 +129,13 @@ public class Racas extends AppCompatActivity {
                     }
                 });
         queue.add(jsonObjectRequest);
+    }
+
+    protected void imageShared(String url){
+        SharedPreferences preferences = getSharedPreferences("user_preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Url", url);
+        editor.commit();
     }
 }
 
